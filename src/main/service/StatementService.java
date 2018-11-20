@@ -29,17 +29,10 @@ public class StatementService implements StatementServiceInterface {
 
 	}
 
-	public double sumWithdrawlsInPeriod(List<Operation> operations) {
-		Stream<Operation> operationStream = operations.stream();
-		// retrieve withdrawls operations and sum them
-		return operationStream.filter(operation -> OperationType.WITHDRAWL.equals(operation.getOperationType()))
-				.mapToDouble(operation -> operation.getAmount()).sum();
-	}
-
-	public double sumDepositsInPeriod(List<Operation> operations) {
+	public double sumOperationsByTypeInPeriod(List<Operation> operations, OperationType operationType) {
 		Stream<Operation> operationStream = operations.stream();
 		// retrieve deposit operations and sum them
-		return operationStream.filter(operation -> OperationType.DEPOSIT.equals(operation.getOperationType()))
+		return operationStream.filter(operation -> operationType.equals(operation.getOperationType()))
 				.mapToDouble(operation -> operation.getAmount()).sum();
 	}
 
@@ -56,8 +49,8 @@ public class StatementService implements StatementServiceInterface {
 		StringBuilder statement = new StringBuilder();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
 		List<Operation> operations = account.getAccountOperations();
-		double totalDeposits = sumDepositsInPeriod(operations);
-		double totalwithdrawls = sumWithdrawlsInPeriod(operations);
+		double totalDeposits = sumOperationsByTypeInPeriod(operations, OperationType.DEPOSIT);
+		double totalwithdrawls = sumOperationsByTypeInPeriod(operations, OperationType.WITHDRAWL);
 		// header of statement will contain account , client infos and period
 		statement.append(account.getIdAccount());
 		statement.append("ACCOUNT NUMBER . ");

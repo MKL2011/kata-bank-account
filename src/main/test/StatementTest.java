@@ -58,8 +58,10 @@ class StatementTest {
 		account.addAccountOperation(firstDeposit);
 		Operation secondDeposit = new Operation("4", OperationType.DEPOSIT, 300, account);
 		account.addAccountOperation(secondDeposit);
-		double totalDeposit = statemntService.sumDepositsInPeriod(account.getAccountOperations());
-		double totalWithdrawl = statemntService.sumWithdrawlsInPeriod(account.getAccountOperations());
+		double totalDeposit = statemntService.sumOperationsByTypeInPeriod(account.getAccountOperations(),
+				OperationType.DEPOSIT);
+		double totalWithdrawl = statemntService.sumOperationsByTypeInPeriod(account.getAccountOperations(),
+				OperationType.WITHDRAWL);
 		// compare values with delta 0
 		assertEquals(400, totalWithdrawl);
 		assertEquals(700, totalDeposit);

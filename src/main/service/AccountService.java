@@ -7,7 +7,7 @@ import main.java.Account;
 import main.java.Operation;
 import main.java.OperationType;
 
-public class AccountService {
+public class AccountService implements AccountServiceInterface {
 
 	private static final Logger LOGGER = Logger.getLogger(AccountService.class.getName());
 
@@ -42,7 +42,6 @@ public class AccountService {
 		} else {
 			// if the operation is a deposit than do it
 			if (OperationType.DEPOSIT.equals(operation.getOperationType())) {
-				System.out.println("c bon");
 				account.addAccountOperation(operation);
 				account.setBalance(account.getBalance() + operation.getAmount());
 				logSuccesOperation(operation);
